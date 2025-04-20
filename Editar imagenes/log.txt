@@ -1,0 +1,94 @@
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Error al procesar la imagen '14630132.jpg': 'ImageDraw' object has no attribute 'textsize'
+Procesando imagen: 20407184.jpg
+Error al procesar la imagen '20407184.jpg': 'ImageDraw' object has no attribute 'textsize'
+Procesando imagen: 30725219.jpg
+Error al procesar la imagen '30725219.jpg': 'ImageDraw' object has no attribute 'textsize'
+Procesando imagen: 6999621.jpg
+Error al procesar la imagen '6999621.jpg': 'ImageDraw' object has no attribute 'textsize'
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Error al procesar la imagen '14630132.jpg': 'ImageDraw' object has no attribute 'textsize'
+Procesando imagen: 20407184.jpg
+Error al procesar la imagen '20407184.jpg': 'ImageDraw' object has no attribute 'textsize'
+Procesando imagen: 30725219.jpg
+Error al procesar la imagen '30725219.jpg': 'ImageDraw' object has no attribute 'textsize'
+Procesando imagen: 6999621.jpg
+Error al procesar la imagen '6999621.jpg': 'ImageDraw' object has no attribute 'textsize'
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Error al procesar la imagen '30725219.jpg': [Errno 22] Invalid argument: 'C:\\Users\\burga\\Desktop\\descargas\\Resultados\\30725219.jpg'
+Procesando imagen: 6999621.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 14630132.jpg
+Procesando imagen: 20407184.jpg
+Procesando imagen: 30725219.jpg
+Procesando imagen: 6999621.jpg
