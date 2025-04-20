@@ -1,7 +1,7 @@
 import os
 import shutil
 from tkinter import messagebox
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont  # Correct imports
 from utils import wrap_text, check_disk_space, analyze_image_clarity
 
 def log_message(message):
@@ -9,13 +9,17 @@ def log_message(message):
     with open("log.txt", "a", encoding="utf-8") as log_file:
         log_file.write(message + "\n")
 
-def add_text_to_images(folder, lines, progress_var, progress_bar):
+def add_text_to_images(folder, lines, progress_var, progress_bar, font_name, font_size):
     output_folder = os.path.join(folder, "Resultados")  # Carpeta de salida
     os.makedirs(output_folder, exist_ok=True)  # Asegurarse de que la carpeta exista
 
     images = [f for f in os.listdir(folder) if f.lower().endswith(('.png', '.jpg', '.jpeg'))]
     total_images = len(images)
     log_message(f"Total de imágenes encontradas: {total_images}")
+
+    # Dimensiones estándar para Instagram/Facebook (4:5 aspecto vertical)
+    target_width = 1080
+    target_height = 1350
 
     for i, filename in enumerate(images):
         if i >= len(lines):
@@ -26,6 +30,9 @@ def add_text_to_images(folder, lines, progress_var, progress_bar):
         try:
             log_message(f"Procesando imagen: {filename}")
             with Image.open(image_path) as img:
+                # Redimensionar la imagen a las dimensiones estándar usando LANCZOS
+                img = img.resize((target_width, target_height), Image.Resampling.LANCZOS)
+
                 # Convertir a RGBA para soportar transparencias
                 if img.mode != "RGBA":
                     img = img.convert("RGBA")
@@ -34,51 +41,34 @@ def add_text_to_images(folder, lines, progress_var, progress_bar):
                 overlay = Image.new("RGBA", img.size, (0, 0, 0, 0))
                 overlay_draw = ImageDraw.Draw(overlay)
 
-                # Analizar claridad de la imagen
-                is_image_dark = analyze_image_clarity(image_path)
-
                 # Configurar color del texto
-                text_color = "white" if is_image_dark else "black"
+                text_color = "white"
 
                 draw = ImageDraw.Draw(img)
-                max_width = int(img.width * 0.6)  # Reducir el ancho máximo del texto al 60% del ancho de la imagen
+                max_width = img.width  # Fondo negro debe cubrir todo el ancho de la imagen
                 max_height = int(img.height * 0.15)  # El texto ocupará como máximo el 15% de la altura de la imagen
 
-                # Ajustar dinámicamente el tamaño de la fuente
-                font_size = 1
+                # Crear la fuente con el tamaño especificado por el usuario
                 try:
-                    font = ImageFont.truetype("arial.ttf", font_size)
+                    font = ImageFont.truetype(font_name, font_size)
                 except IOError:
-                    font = ImageFont.load_default()  # Usa una fuente predeterminada si no se encuentra arial.ttf
-
-                while True:
-                    wrapped_text = wrap_text(text, font, max_width, draw)
-                    text_height = sum(draw.textbbox((0, 0), line, font=font)[3] - draw.textbbox((0, 0), line, font=font)[1] for line in wrapped_text) + (len(wrapped_text) - 1) * 5
-                    if text_height > max_height or any(draw.textbbox((0, 0), line, font=font)[2] > max_width for line in wrapped_text):
-                        break
-                    font_size += 1
-                    font = ImageFont.truetype("arial.ttf", font_size)
-                font_size -= 1  # Reducir el tamaño para que no exceda los límites
-                font = ImageFont.truetype("arial.ttf", font_size)
+                    font = ImageFont.load_default()  # Usa una fuente predeterminada si no se encuentra la fuente
 
                 # Dividir el texto en líneas si es necesario
                 wrapped_text = wrap_text(text, font, max_width, draw)
 
                 # Calcular el tamaño total del texto
-                text_width = max(draw.textbbox((0, 0), line, font=font)[2] for line in wrapped_text)
                 text_height = sum(draw.textbbox((0, 0), line, font=font)[3] - draw.textbbox((0, 0), line, font=font)[1] for line in wrapped_text) + (len(wrapped_text) - 1) * 5
-                position = ((img.width - text_width) // 2, (img.height - text_height) // 2)
+                position = (0, (img.height - text_height) // 2)
 
-                # Dibujar fondo negro semitransparente si el texto es blanco
-                if text_color == "white":
-                    padding = 40  # Aumentar el padding para centrar mejor el texto
-                    background_bbox = (
-                        position[0] - padding,
-                        position[1] - padding,
-                        position[0] + text_width + padding,
-                        position[1] + text_height + padding
-                    )
-                    overlay_draw.rectangle(background_bbox, fill=(0, 0, 0, 80))  # Fondo negro más transparente
+                # Dibujar fondo negro semitransparente en todo el ancho
+                background_bbox = (
+                    0,
+                    position[1] - 20,
+                    img.width,
+                    position[1] + text_height + 20
+                )
+                overlay_draw.rectangle(background_bbox, fill=(0, 0, 0, 120))  # Fondo negro semitransparente
 
                 # Combinar la capa de fondo con la imagen original
                 img = Image.alpha_composite(img, overlay)
@@ -88,17 +78,20 @@ def add_text_to_images(folder, lines, progress_var, progress_bar):
                 y_offset = position[1]
                 for line in wrapped_text:
                     line_width = draw.textbbox((0, 0), line, font=font)[2]
-                    line_height = draw.textbbox((0, 0), line, font=font)[3] - draw.textbbox((0, 0), line, font=font)[1]
                     x_offset = (img.width - line_width) // 2
                     draw.text((x_offset, y_offset), line, font=font, fill=text_color)
-                    y_offset += line_height + 5  # Espaciado entre líneas
+                    y_offset += draw.textbbox((0, 0), line, font=font)[3] - draw.textbbox((0, 0), line, font=font)[1] + 5
 
-                # Dibujar el logo "@emotivaX" un poco más arriba
+                # Dibujar el logo "@emotivaX" en la parte inferior
                 logo_font_size = int(img.width * 0.03)  # Tamaño de fuente proporcional al ancho de la imagen
-                logo_font = ImageFont.truetype("arial.ttf", logo_font_size)
+                try:
+                    logo_font = ImageFont.truetype(font_name, logo_font_size)
+                except IOError:
+                    logo_font = ImageFont.load_default()  # Usa una fuente predeterminada si no se encuentra la fuente
+
                 logo_text = "@emotivaX"
                 logo_width, logo_height = draw.textbbox((0, 0), logo_text, font=logo_font)[2:]
-                logo_position = ((img.width - logo_width) // 2, img.height - logo_height - 50)  # 50px desde el borde inferior
+                logo_position = ((img.width - logo_width) // 2, img.height - logo_height - 20)  # 20px desde el borde inferior
                 draw.text(logo_position, logo_text, font=logo_font, fill="white")  # Texto blanco para el logo
 
                 # Guardar la imagen procesada
@@ -115,7 +108,7 @@ def add_text_to_images(folder, lines, progress_var, progress_bar):
             continue  # Continuar con la siguiente imagen
     return output_folder
 
-def process_images(progress_var, progress_bar, folder):
+def process_images(progress_var, progress_bar, folder, font, font_size):
     script_dir = os.path.dirname(os.path.abspath(__file__))
     text_file = os.path.join(script_dir, "frases.txt")
 
@@ -147,7 +140,7 @@ def process_images(progress_var, progress_bar, folder):
         return
 
     try:
-        output_folder = add_text_to_images(folder, lines, progress_var, progress_bar)
+        output_folder = add_text_to_images(folder, lines, progress_var, progress_bar, font, font_size)
         messagebox.showinfo("Proceso completado", f"Las imágenes editadas se guardaron en: {output_folder}")
     except Exception as e:
         log_message(f"Error durante el procesamiento: {e}")

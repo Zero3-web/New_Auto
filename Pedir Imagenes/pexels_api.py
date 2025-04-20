@@ -7,13 +7,16 @@ class PexelsAPI:
     ID_FILE = "downloaded_ids.txt"
 
     @staticmethod
-    def fetch_images(query, per_page=5):
+    def fetch_images(query, per_page=5, orientation="horizontal"):
         headers = {"Authorization": PexelsAPI.API_KEY}
-        params = {"query": query, "per_page": per_page}
+        params = {"query": query, "per_page": per_page, "orientation": orientation}
         response = requests.get(PexelsAPI.BASE_URL, headers=headers, params=params)
         
         if response.status_code == 200:
             photos = response.json().get("photos", [])
+            # Filtrar imágenes estrictamente verticales si se selecciona "vertical"
+            if orientation == "vertical":
+                photos = [photo for photo in photos if photo["width"] < photo["height"]]
             return PexelsAPI.filter_new_images(photos)
         else:
             print(f"Error en la API: {response.status_code} - {response.text}")

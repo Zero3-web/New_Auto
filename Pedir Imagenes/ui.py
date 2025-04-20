@@ -15,8 +15,15 @@ class App:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Buscador de Imágenes")
-        self.root.geometry("900x700")
-        self.root.resizable(True, True)
+        self.root.geometry("900x750")
+        self.root.resizable(False, False)
+
+        # Intentar cargar el icono, manejar el error si no existe
+        try:
+            icon_path = os.path.join(os.path.dirname(__file__), "icon.ico")
+            self.root.iconbitmap(icon_path)
+        except tk.TclError:
+            print("Advertencia: No se encontró el archivo 'icon.ico'. Usando el icono predeterminado.")
 
         self.photos = []  # Almacena las imágenes obtenidas en la búsqueda
         self.theme = "light"  # Tema inicial
@@ -46,62 +53,95 @@ class App:
         self.root.config(menu=menu_bar)
 
     def create_widgets(self):
-        # Título
+        # Header Section
+        header_frame = ttk.Frame(self.root, style="Header.TFrame")
+        header_frame.pack(fill="x", pady=10)
+
         title_label = ttk.Label(
-            self.root, text="Buscador de Imágenes", font=("Helvetica", 18, "bold")
+            header_frame, text="Buscador de Imágenes", font=("Segoe UI", 24, "bold"), anchor="center"
         )
         title_label.pack(pady=10)
 
-        # Descripción
+        # Description
         description_label = ttk.Label(
             self.root,
-            text="Ingrese una categoría y el número de imágenes que desea buscar.\n"
-                 "Las imágenes ya descargadas no se volverán a mostrar.",
-            font=("Helvetica", 12),
+            text="Ingrese una categoría, el número de imágenes y el tipo de orientación que desea buscar.\n"
+                 "Seleccione también la fuente y el tamaño del texto para las imágenes procesadas.",
+            font=("Segoe UI", 12),
             justify="center",
         )
         description_label.pack(pady=10)
 
-        # Frame para los inputs
-        input_frame = ttk.Frame(self.root)
-        input_frame.pack(pady=20)
+        # Input Section
+        input_frame = ttk.LabelFrame(self.root, text="Parámetros de Búsqueda", padding=(10, 10))
+        input_frame.pack(pady=20, padx=20, fill="x")
 
-        # Input para categoría
-        category_label = ttk.Label(input_frame, text="Categoría:")
+        # Input for Category
+        category_label = ttk.Label(input_frame, text="Categoría:", font=("Segoe UI", 10))
         category_label.grid(row=0, column=0, padx=5, pady=5, sticky="e")
 
         self.category_entry = ttk.Entry(input_frame, width=40)
         self.category_entry.grid(row=0, column=1, padx=5, pady=5)
 
-        # Input para número de imágenes
-        num_label = ttk.Label(input_frame, text="Número de imágenes:")
+        # Input for Number of Images
+        num_label = ttk.Label(input_frame, text="Número de imágenes:", font=("Segoe UI", 10))
         num_label.grid(row=1, column=0, padx=5, pady=5, sticky="e")
 
         self.num_entry = ttk.Entry(input_frame, width=10)
         self.num_entry.grid(row=1, column=1, padx=5, pady=5, sticky="w")
 
-        # Botones
-        button_frame = ttk.Frame(self.root)
-        button_frame.pack(pady=10)
+        # Orientation Selection
+        orientation_label = ttk.Label(input_frame, text="Orientación:", font=("Segoe UI", 10))
+        orientation_label.grid(row=2, column=0, padx=5, pady=5, sticky="e")
 
-        # Botón único para procesar (buscar, descargar y editar)
+        self.orientation_var = tk.StringVar(value="horizontal")
+        orientation_frame = ttk.Frame(input_frame)
+        orientation_frame.grid(row=2, column=1, padx=5, pady=5, sticky="w")
+
+        horizontal_radio = ttk.Radiobutton(
+            orientation_frame, text="Horizontal", variable=self.orientation_var, value="horizontal"
+        )
+        horizontal_radio.pack(side="left", padx=5)
+
+        vertical_radio = ttk.Radiobutton(
+            orientation_frame, text="Vertical", variable=self.orientation_var, value="vertical"
+        )
+        vertical_radio.pack(side="left", padx=5)
+
+        # Font Selection
+        font_label = ttk.Label(input_frame, text="Fuente:", font=("Segoe UI", 10))
+        font_label.grid(row=3, column=0, padx=5, pady=5, sticky="e")
+
+        self.font_var = tk.StringVar(value="arial.ttf")
+        font_dropdown = ttk.Combobox(input_frame, textvariable=self.font_var, state="readonly", width=37)
+        font_dropdown["values"] = ["arial.ttf", "times.ttf", "courier.ttf"]  # Add more font options as needed
+        font_dropdown.grid(row=3, column=1, padx=5, pady=5)
+
+        # Font Size Selection
+        font_size_label = ttk.Label(input_frame, text="Tamaño de fuente:", font=("Segoe UI", 10))
+        font_size_label.grid(row=4, column=0, padx=5, pady=5, sticky="e")
+
+        self.font_size_var = tk.IntVar(value=20)
+        font_size_spinbox = ttk.Spinbox(input_frame, from_=10, to=100, textvariable=self.font_size_var, width=10)
+        font_size_spinbox.grid(row=4, column=1, padx=5, pady=5, sticky="w")
+
+        # Process Button
         self.process_button = ttk.Button(self.root, text="Procesar", command=self.process_all)
-        self.process_button.pack(pady=10)
+        self.process_button.pack(pady=20)
 
-        # Barra de progreso
+        # Progress Bar
         self.progress_var = tk.IntVar()
-        self.progress_bar = Progressbar(self.root, orient="horizontal", length=400, mode="determinate", variable=self.progress_var)
+        self.progress_bar = Progressbar(self.root, orient="horizontal", length=600, mode="determinate", variable=self.progress_var)
         self.progress_bar.pack(pady=10)
 
-        # Área de estado
-        self.status_label = ttk.Label(self.root, text="", font=("Helvetica", 10))
+        # Status Label
+        self.status_label = ttk.Label(self.root, text="", font=("Segoe UI", 10), anchor="center")
         self.status_label.pack(pady=5)
 
-        # Frame para mostrar imágenes
-        self.image_frame = ttk.Frame(self.root)
-        self.image_frame.pack(pady=20, fill="both", expand=True)
+        # Image Display Section
+        self.image_frame = ttk.LabelFrame(self.root, text="Imágenes Descargadas", padding=(10, 10))
+        self.image_frame.pack(pady=20, padx=20, fill="both", expand=True)
 
-        # Scrollbar para imágenes
         self.canvas = tk.Canvas(self.image_frame)
         self.scrollbar = ttk.Scrollbar(self.image_frame, orient="vertical", command=self.canvas.yview)
         self.scrollable_frame = ttk.Frame(self.canvas)
@@ -117,10 +157,23 @@ class App:
         self.canvas.pack(side="left", fill="both", expand=True)
         self.scrollbar.pack(side="right", fill="y")
 
+        # Footer Section
+        footer_frame = ttk.Frame(self.root, style="Footer.TFrame")
+        footer_frame.pack(fill="x", pady=10)
+
+        footer_label = ttk.Label(
+            footer_frame, text="Buscador de Imágenes - Versión 1.0 | Desarrollado por GitHub Copilot",
+            font=("Segoe UI", 9), anchor="center"
+        )
+        footer_label.pack(pady=5)
+
     def process_all(self):
         """Realiza la búsqueda, descarga y procesamiento de imágenes."""
         query = self.category_entry.get()
         num_images = self.num_entry.get()
+        orientation = self.orientation_var.get()
+        font = self.font_var.get()
+        font_size = self.font_size_var.get()
 
         if not query:
             messagebox.showerror("Error", "Por favor, ingrese una categoría.")
@@ -134,14 +187,14 @@ class App:
         self.status_label.config(text="Buscando imágenes...")
 
         # Iniciar un hilo para evitar que la UI se congele
-        thread = threading.Thread(target=self._process_all_background, args=(query, num_images))
+        thread = threading.Thread(target=self._process_all_background, args=(query, num_images, orientation, font, font_size))
         thread.start()
 
-    def _process_all_background(self, query, num_images):
+    def _process_all_background(self, query, num_images, orientation, font, font_size):
         """Lógica de procesamiento en un hilo separado."""
         try:
             # Buscar imágenes
-            self.photos = PexelsAPI.fetch_images(query, per_page=num_images)
+            self.photos = PexelsAPI.fetch_images(query, per_page=num_images, orientation=orientation)
             if not self.photos:
                 self.status_label.config(text="")
                 messagebox.showinfo("Sin resultados", "No se encontraron imágenes nuevas para esta categoría.")
@@ -169,7 +222,7 @@ class App:
 
             # Procesar imágenes
             self.status_label.config(text="Procesando imágenes...")
-            process_images(self.progress_var, self.progress_bar, download_folder)
+            process_images(self.progress_var, self.progress_bar, download_folder, font, font_size)
 
             # Actualizar estado
             self.status_label.config(text="Proceso completado.")
