@@ -45,36 +45,38 @@ def add_text_to_images(folder, lines, progress_var, progress_bar, font_name, fon
                 text_color = "white"
 
                 draw = ImageDraw.Draw(img)
-                max_width = img.width  # Fondo negro debe cubrir todo el ancho de la imagen
-                max_height = int(img.height * 0.15)  # El texto ocupará como máximo el 15% de la altura de la imagen
+                # Adjusted margins for text positioning
+                margin_x = int(img.width * 0.05)  # 5% margin from the sides
+                margin_y = int(img.height * 0.05)  # 5% margin from the top and bottom
 
-                # Crear la fuente con el tamaño especificado por el usuario
+                # Ensure the font is initialized before use
                 try:
                     font = ImageFont.truetype(font_name, font_size)
                 except IOError:
-                    font = ImageFont.load_default()  # Usa una fuente predeterminada si no se encuentra la fuente
+                    font = ImageFont.load_default()  # Use a default font if the specified font is not found
 
-                # Dividir el texto en líneas si es necesario
+                # Dividing the text into lines with adjusted max width
+                max_width = img.width - 2 * margin_x
                 wrapped_text = wrap_text(text, font, max_width, draw)
 
-                # Calcular el tamaño total del texto
+                # Calculate total text height
                 text_height = sum(draw.textbbox((0, 0), line, font=font)[3] - draw.textbbox((0, 0), line, font=font)[1] for line in wrapped_text) + (len(wrapped_text) - 1) * 5
-                position = (0, (img.height - text_height) // 2)
+                position = (margin_x, (img.height - text_height) // 2)
 
-                # Dibujar fondo negro semitransparente en todo el ancho
+                # Draw semi-transparent black background
                 background_bbox = (
-                    0,
+                    margin_x,
                     position[1] - 20,
-                    img.width,
+                    img.width - margin_x,
                     position[1] + text_height + 20
                 )
-                overlay_draw.rectangle(background_bbox, fill=(0, 0, 0, 120))  # Fondo negro semitransparente
+                overlay_draw.rectangle(background_bbox, fill=(0, 0, 0, 120))
 
-                # Combinar la capa de fondo con la imagen original
+                # Combine the overlay with the original image
                 img = Image.alpha_composite(img, overlay)
 
-                # Dibujar texto línea por línea sobre la imagen combinada
-                draw = ImageDraw.Draw(img)  # Redibujar sobre la imagen combinada
+                # Draw text line by line with adjusted margins
+                draw = ImageDraw.Draw(img)
                 y_offset = position[1]
                 for line in wrapped_text:
                     line_width = draw.textbbox((0, 0), line, font=font)[2]
@@ -82,17 +84,18 @@ def add_text_to_images(folder, lines, progress_var, progress_bar, font_name, fon
                     draw.text((x_offset, y_offset), line, font=font, fill=text_color)
                     y_offset += draw.textbbox((0, 0), line, font=font)[3] - draw.textbbox((0, 0), line, font=font)[1] + 5
 
-                # Dibujar el logo "@emotivaX" en la parte inferior
-                logo_font_size = int(img.width * 0.03)  # Tamaño de fuente proporcional al ancho de la imagen
+                # Ensure the logo font is initialized before use
+                logo_font_size = int(img.width * 0.03)
                 try:
                     logo_font = ImageFont.truetype(font_name, logo_font_size)
                 except IOError:
-                    logo_font = ImageFont.load_default()  # Usa una fuente predeterminada si no se encuentra la fuente
+                    logo_font = ImageFont.load_default()  # Use a default font if the specified font is not found
 
+                # Draw the logo "@emotivaX" at the bottom with adjusted margins
                 logo_text = "@emotivaX"
                 logo_width, logo_height = draw.textbbox((0, 0), logo_text, font=logo_font)[2:]
-                logo_position = ((img.width - logo_width) // 2, img.height - logo_height - 20)  # 20px desde el borde inferior
-                draw.text(logo_position, logo_text, font=logo_font, fill="white")  # Texto blanco para el logo
+                logo_position = ((img.width - logo_width) // 2, img.height - logo_height - margin_y)
+                draw.text(logo_position, logo_text, font=logo_font, fill="white")
 
                 # Guardar la imagen procesada
                 img = img.convert("RGB")  # Convertir de nuevo a RGB para guardar como JPEG

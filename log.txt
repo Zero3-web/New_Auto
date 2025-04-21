@@ -1,0 +1,102 @@
+Total de imágenes encontradas: 2
+Procesando imagen: 10842094.jpg
+Procesando imagen: 30029657.jpg
+Total de imágenes encontradas: 4
+Procesando imagen: 10842094.jpg
+Procesando imagen: 30029657.jpg
+Procesando imagen: 5614135.jpg
+Procesando imagen: 5698417.jpg
+Total de imágenes encontradas: 9
+Procesando imagen: 10183618.jpg
+Procesando imagen: 10842094.jpg
+Procesando imagen: 19435364.jpg
+Procesando imagen: 30029657.jpg
+Procesando imagen: 30299320.jpg
+Procesando imagen: 5614135.jpg
+Procesando imagen: 5698417.jpg
+Procesando imagen: 978741.jpg
+Procesando imagen: 979003.jpg
+Total de imágenes encontradas: 11
+Procesando imagen: 10183618.jpg
+Procesando imagen: 10842094.jpg
+Procesando imagen: 14529600.jpg
+Procesando imagen: 19435364.jpg
+Procesando imagen: 29837328.jpg
+Procesando imagen: 30029657.jpg
+Procesando imagen: 30299320.jpg
+Procesando imagen: 5614135.jpg
+Procesando imagen: 5698417.jpg
+Procesando imagen: 978741.jpg
+Total de imágenes encontradas: 15
+Procesando imagen: 10183618.jpg
+Procesando imagen: 10842094.jpg
+Procesando imagen: 14529600.jpg
+Procesando imagen: 14842121.jpg
+Procesando imagen: 19435364.jpg
+Procesando imagen: 19467550.jpg
+Procesando imagen: 27985503.jpg
+Procesando imagen: 27985504.jpg
+Procesando imagen: 29837328.jpg
+Procesando imagen: 30029657.jpg
+Total de imágenes encontradas: 23
+Procesando imagen: 10183618.jpg
+Error al procesar la imagen '10183618.jpg': name 'font' is not defined
+Procesando imagen: 10842094.jpg
+Error al procesar la imagen '10842094.jpg': name 'font' is not defined
+Procesando imagen: 14529600.jpg
+Error al procesar la imagen '14529600.jpg': name 'font' is not defined
+Procesando imagen: 14842121.jpg
+Error al procesar la imagen '14842121.jpg': name 'font' is not defined
+Procesando imagen: 15466918.jpg
+Error al procesar la imagen '15466918.jpg': name 'font' is not defined
+Procesando imagen: 19435364.jpg
+Error al procesar la imagen '19435364.jpg': name 'font' is not defined
+Procesando imagen: 19467550.jpg
+Error al procesar la imagen '19467550.jpg': name 'font' is not defined
+Procesando imagen: 20407184.jpg
+Error al procesar la imagen '20407184.jpg': name 'font' is not defined
+Procesando imagen: 24039200.jpg
+Error al procesar la imagen '24039200.jpg': name 'font' is not defined
+Procesando imagen: 27985503.jpg
+Error al procesar la imagen '27985503.jpg': name 'font' is not defined
+Total de imágenes encontradas: 9
+Procesando imagen: 14093092.jpg
+Error al procesar la imagen '14093092.jpg': name 'font' is not defined
+Procesando imagen: 14842121.jpg
+Error al procesar la imagen '14842121.jpg': name 'font' is not defined
+Procesando imagen: 17895292.jpg
+Error al procesar la imagen '17895292.jpg': name 'font' is not defined
+Procesando imagen: 17895293.jpg
+Error al procesar la imagen '17895293.jpg': name 'font' is not defined
+Procesando imagen: 28232557.jpg
+Error al procesar la imagen '28232557.jpg': name 'font' is not defined
+Procesando imagen: 28232558.jpg
+Error al procesar la imagen '28232558.jpg': name 'font' is not defined
+Procesando imagen: 28232559.jpg
+Error al procesar la imagen '28232559.jpg': name 'font' is not defined
+Procesando imagen: 30166882.jpg
+Error al procesar la imagen '30166882.jpg': name 'font' is not defined
+Procesando imagen: 30166889.jpg
+Error al procesar la imagen '30166889.jpg': name 'font' is not defined
+Total de imágenes encontradas: 12
+Procesando imagen: 14093092.jpg
+Procesando imagen: 14842121.jpg
+Procesando imagen: 15529571.jpg
+Procesando imagen: 15529573.jpg
+Procesando imagen: 17895292.jpg
+Procesando imagen: 17895293.jpg
+Procesando imagen: 28232557.jpg
+Procesando imagen: 28232558.jpg
+Procesando imagen: 28232559.jpg
+Procesando imagen: 29109508.jpg
+Total de imágenes encontradas: 2
+Procesando imagen: 268349.jpg
+Procesando imagen: 30166889.jpg
+Total de imágenes encontradas: 7
+Procesando imagen: 1032650.jpg
+Procesando imagen: 1212600.jpg
+Procesando imagen: 1631678.jpg
+Procesando imagen: 1921336.jpg
+Procesando imagen: 561463.jpg
+Procesando imagen: 801885.jpg
+Procesando imagen: 92664.jpg
